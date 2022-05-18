@@ -49,7 +49,7 @@ class CreateNewPasswordSerializer(serializers.Serializer):
     password2 = serializers.CharField(min_length=4, required=True)
 
     def validate(self, attrs):
-        password = attrs.get['password']
+        password = attrs.get('password')
         password2 = attrs.pop('password')
         if password != password2:
             raise serializers.ValidationError('Password does not match')
@@ -70,7 +70,7 @@ class CreateNewPasswordSerializer(serializers.Serializer):
     def save(self, **kwargs):
         data = self.validated_data
         user = data['user']
-        user.set_password(data['password'])
+        user.set_password('password')
         user.activation_code = ''
         user.save()
         return user
