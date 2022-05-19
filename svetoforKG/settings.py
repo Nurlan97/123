@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #My_apps
     'account',
     'products',
+    'basket',
 
 
 ]
