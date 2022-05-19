@@ -1,6 +1,9 @@
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from django.db import models
-User = get_user_model()
+from account.models import CustomUser
+
+
+# User = get_user_model()
 
 
 class Product(models.Model):
@@ -8,7 +11,7 @@ class Product(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='pics')
     description = models.TextField()
     price = models.IntegerField()
-    owner = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
+    owner = models.ForeignKey(CustomUser, related_name='products', on_delete=models.CASCADE)
 
 
 
