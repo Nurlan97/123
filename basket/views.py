@@ -3,8 +3,10 @@ from rest_framework.response import Response
 
 from basket import serializers
 
+
 class BasketApiView(views.APIView):
-    # permission_classes=[permissions.IsAuthenticated]
+    permission_classes=[permissions.IsAuthenticated]
+
     def post(self, request):
         serializer = serializers.OrderSerializer(
             data=request.data
