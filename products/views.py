@@ -1,22 +1,23 @@
 # from django.shortcuts import render
 
-from rest_framework import generics
+from rest_framework import generics, permissions
 from products import serializers
 
-from products.models import Product
+from products.permissions import IsAuthor
+from products.models import Product, Recall
+
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
 
 
-
-class DetailAPIView(generics.RetrieveAPIView):
+class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
 
 
-class CreateView(generics.CreateAPIView):
+class ProductCreateView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
 
@@ -24,19 +25,26 @@ class CreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-
-class UpdateView(generics.UpdateAPIView):
+class ProductUpdateView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
 
 
-class DeleteView(generics.DestroyAPIView):
+class ProductDeleteView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
 
 
+class RecallListCreateView(generics.ListCreateAPIView):
+    queryset = Recall.objects.all()
+    serializer_class = serializers.RecallSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def perform_create(self, serializer):
+        return serializer.save(owner=self.request.user)
 
 
-
-
-
+class RecallDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Recall.objects.all()
+    serializer_class = serializers.RecallSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsAuthor, )
