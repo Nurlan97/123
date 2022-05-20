@@ -3,7 +3,6 @@ from products.models import Product
 from basket.models import Order
 
 
-
 class OrderSerializer(serializers.Serializer):
     product = serializers.IntegerField()
     count = serializers.IntegerField()
@@ -26,5 +25,4 @@ class OrderSerializer(serializers.Serializer):
         Order.objects.create(
             product=product,
             user=user,
-            count=data['count'],
-        )
+            count=data['count'],)
